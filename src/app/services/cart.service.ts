@@ -15,6 +15,10 @@ export class CartService {
     total: 0
   });
 
+  constructor() {
+    this.loadFromLocalStorage();
+  }
+
   private calculateTotals(items: CartItem[]): CartState {
     const subtotal = items.reduce((total, item) => {
       const price = item.product.discountPrice ?? item.product.price;
@@ -81,13 +85,20 @@ export class CartService {
   }
 
   private saveToLocalStorage() {
-    localStorage.setItem('cart', JSON.stringify(this.cartState()));
+    const state = this.cartState();
+    localStorage.setItem('cart', JSON.stringify({
+      items: state.items,
+      subtotal: state.subtotal,
+      tax: state.tax,
+      total: state.total
+    }));
   }
 
-  loadFromLocalStorage() {
+  private loadFromLocalStorage() {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
-      this.cartState.set(JSON.parse(savedCart));
+      const parsedCart = JSON.parse(savedCart);
+      this.cartState.set(this.calculateTotals(parsedCart.items));
     }
   }
 

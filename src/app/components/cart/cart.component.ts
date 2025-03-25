@@ -15,7 +15,6 @@ import { CartItem } from '../../models/cart.type';
 export class CartComponent {
   private cartService = inject(CartService);
 
-  // Create computed signals for the cart state properties
   protected items = computed(() => this.cartService.getCartState()().items);
   protected subtotal = computed(() => this.cartService.getCartState()().subtotal);
   protected tax = computed(() => this.cartService.getCartState()().tax);

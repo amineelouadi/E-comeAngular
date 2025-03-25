@@ -1,31 +1,42 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { Product } from '../models/product.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WishlistService {
-  private wishlist: Product[] = [];
+  private wishlistKey = 'wishlist';
+  private _wishlist = signal<Product[]>([]);
+  public wishlist = this._wishlist.asReadonly();
+  public wishlistCount = computed(() => this._wishlist().length);
 
-  addToWishlist(product: Product): void {
-    if (!this.isInWishlist(product)) {
-      this.wishlist.push(product);
+  constructor() {
+    this.loadWishlist();
+  }
+
+  private loadWishlist() {
+    const storedWishlist = localStorage.getItem(this.wishlistKey);
+    if (storedWishlist) {
+      this._wishlist.set(JSON.parse(storedWishlist));
     }
   }
 
-  removeFromWishlist(product: Product): void {
-    this.wishlist = this.wishlist.filter(item => item.id !== product.id);
+  addToWishlist(product: Product) {
+    this._wishlist.update(items => {
+      if (!items.some(item => item.id === product.id)) {
+        return [...items, product];
+      }
+      return items;
+    });
+    this.saveWishlist();
   }
 
-  isInWishlist(product: Product): boolean {
-    return this.wishlist.some(item => item.id === product.id);
+  removeFromWishlist(product: Product) {
+    this._wishlist.update(items => items.filter(item => item.id !== product.id));
+    this.saveWishlist();
   }
 
-  getWishlist(): Product[] {
-    return this.wishlist;
-  }
-
-  getWishlistCount(): number {
-    return this.wishlist.length;
+  private saveWishlist() {
+    localStorage.setItem(this.wishlistKey, JSON.stringify(this._wishlist()));
   }
 }

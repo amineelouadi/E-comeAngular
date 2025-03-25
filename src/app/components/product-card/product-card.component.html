@@ -1,43 +1,65 @@
-<div class="bg-white rounded-lg shadow overflow-hidden flex flex-col h-full">
+<div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full relative">
+  <!-- Wishlist Heart Button -->
+  <button 
+    (click)="toggleWishlist()"
+    class="absolute top-3 right-3 z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-red-100 transition-colors duration-200"
+  >
+    <i class="text-xl fa-heart {{ isInWishlist() ? 'fas text-red-500' : 'far text-gray-600' }}"></i>
+  </button>
+
   <a [routerLink]="['/products', product.id]" class="flex-grow flex flex-col">
-    <img [src]="product.imageUrl" [alt]="product.name" class="w-full h-48 object-cover">
+    <!-- Product Image -->
+    <div class="relative aspect-square overflow-hidden">
+      <img 
+        [src]="product.imageUrl" 
+        [alt]="product.name" 
+        class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+      >
+    </div>
+
+    <!-- Product Details -->
     <div class="p-4 flex-grow flex flex-col justify-between">
       <div>
-        <h3 class="text-xl font-semibold text-gray-900">{{ product.name }}</h3>
-        <p class="text-sm text-gray-600 mt-1 h-20 overflow-hidden">{{ product.description }}</p>
+        <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ product.name }}</h3>
+        <p class="text-sm text-gray-600 line-clamp-3 mb-3">{{ product.description }}</p>
       </div>
 
-      <div class="mt-2 flex items-center">
-        <span *ngIf="product.discountPrice" class="text-red-600 text-xl">
-          ${{ product.discountPrice }}
-        </span>
-        <span *ngIf="product.discountPrice" class="text-sm line-through text-gray-500 ml-2">
-          ${{ product.price }}
-        </span>
-        <span *ngIf="!product.discountPrice" class="text-xl text-gray-900">
-          ${{ product.price }}
-        </span>
-      </div>
-
-      <!-- Star Rating -->
-      <div class="flex items-center mt-2">
-        <div class="flex space-x-1">
-          <svg *ngFor="let star of [1, 2, 3, 4, 5]"
-               [class.text-yellow-400]="star <= product.rating"
-               [class.text-gray-300]="star > product.rating"
-               class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1,0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
+      <!-- Price & Rating -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-bold text-red-600" *ngIf="product.discountPrice">
+              ${{ product.discountPrice }}
+            </span>
+            <span class="text-xl font-bold text-gray-900" *ngIf="!product.discountPrice">
+              ${{ product.price }}
+            </span>
+            <span class="text-sm text-gray-400 line-through" *ngIf="product.discountPrice">
+              ${{ product.price }}
+            </span>
+          </div>
         </div>
-        <span class="text-sm text-gray-600 ml-2">({{ product.reviews }} reviews)</span>
+
+        <!-- Rating -->
+        <div class="flex items-center gap-2">
+          <div class="flex items-center">
+            <span *ngFor="let star of [1,2,3,4,5]" class="text-amber-400">
+              <i class="fas fa-star {{ star <= product.rating ? 'text-amber-400' : 'text-gray-300' }}"></i>
+            </span>
+          </div>
+          <span class="text-sm text-gray-500">({{ product.reviews }})</span>
+        </div>
       </div>
     </div>
-    
   </a>
 
-  <!-- Add to Cart Button with Icon -->
-  <button (click)="addToCart()" class="w-full bg-blue-600 text-white py-3 hover:bg-blue-700 flex items-center justify-center space-x-2">
-    <i class="fas fa-cart-plus"></i>
+  <!-- Add to Cart Button -->
+  <button 
+    (click)="addToCart()"
+    class="mx-4 mb-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-lg
+           hover:from-blue-600 hover:to-blue-700 transition-all duration-300 flex items-center justify-center gap-2"
+  >
+    <i class="fas fa-shopping-cart"></i>
     <span>Add to Cart</span>
   </button>
 </div>

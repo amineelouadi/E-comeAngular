@@ -1,54 +1,98 @@
-<nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
-    <div class="container mx-auto px-4 py-2">
-      <div class="flex justify-between items-center h-16">
-        
-        <!-- Brand Section -->
-        <div class="flex items-center space-x-4">
-          <a routerLink="/" class="text-2xl font-bold text-gray-800 hover:text-blue-500 transition-colors duration-300">SQLI SHOP</a>
-        </div>
-        
-        <!-- Navigation Links -->
-        <div class="hidden md:flex items-center space-x-8">
-          <a routerLink="/products" class="text-gray-600 hover:text-gray-800 transition duration-300">Products</a>
-          <a routerLink="/about" class="text-gray-600 hover:text-gray-800 transition duration-300">About</a>
-          <a routerLink="/contact" class="text-gray-600 hover:text-gray-800 transition duration-300">Contact</a>
-        </div>
-        
-        <!-- Cart Icon with Item Count -->
-        <div class="relative flex items-center space-x-4">
-          <a routerLink="/cart" class="relative text-gray-600 hover:text-gray-800 transition duration-300">
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l3 9h12l3-9h2M3 3l2 16h14l2-16M7 10h10m-4 5h4m-2 5h6" />
-            </svg>
-            <span *ngIf="itemCount() > 0" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-              {{ itemCount() }}
-            </span>
-          </a>
-        </div>
-        
-        <!-- Hamburger Menu for Mobile -->
-        <div class="md:hidden flex items-center space-x-4">
-          <button (click)="toggleMenu()" class="text-gray-600 hover:text-gray-800 focus:outline-none">
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
+<nav class="bg-white/80 backdrop-blur-sm border-b border-gray-100 fixed top-0 left-0 right-0 z-50 shadow-sm">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center h-16">
+      <!-- Brand Section -->
+      <div class="flex items-center space-x-3">
+        <a routerLink="/" class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition-all">
+          SQLI SHOP
+        </a>
       </div>
       
-      <!-- Mobile Menu -->
-      <div *ngIf="isMenuOpen" class="md:hidden bg-white shadow-md">
-        <div class="flex flex-col items-center space-y-4 py-4">
-          <a routerLink="/products" class="text-gray-600 hover:text-gray-800">Products</a>
-          <a routerLink="/about" class="text-gray-600 hover:text-gray-800">About</a>
-          <a routerLink="/contact" class="text-gray-600 hover:text-gray-800">Contact</a>
-        </div>
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center space-x-6">
+        <a routerLink="/products" 
+           class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors duration-200
+                  hover:bg-gray-50 font-medium flex items-center gap-1">
+          <i class="fas fa-box-open text-sm"></i>
+          Products
+        </a>
+        <a routerLink="/about" 
+           class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors duration-200
+                  hover:bg-gray-50 font-medium flex items-center gap-1">
+          <i class="fas fa-info-circle text-sm"></i>
+          About
+        </a>
+        <a routerLink="/contact" 
+           class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md transition-colors duration-200
+                  hover:bg-gray-50 font-medium flex items-center gap-1">
+          <i class="fas fa-envelope text-sm"></i>
+          Contact
+        </a>
+      </div>
+      
+      <!-- Icons Section -->
+      <div class="flex items-center gap-4">
+        <!-- Wishlist Icon -->
+        <a routerLink="/wishlist" class="relative p-2 hover:bg-gray-100 rounded-full transition-colors">
+          <i class="fas fa-heart text-lg 
+                    {{ wishlistCount() > 0 ? 'text-red-500' : 'text-gray-600' }}"></i>
+          <span *ngIf="wishlistCount() > 0" 
+                class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] 
+                       rounded-full h-5 w-5 flex items-center justify-center font-bold">
+            {{ wishlistCount() }}
+          </span>
+        </a>
+        
+        <!-- Cart Icon -->
+        <a routerLink="/cart" class="relative p-2 hover:bg-gray-100 rounded-full transition-colors">
+          <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" 
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+          </svg>
+          <span *ngIf="itemCount() > 0" 
+                class="absolute -top-1 -right-1 bg-blue-500 text-white text-[10px] 
+                       rounded-full h-5 w-5 flex items-center justify-center font-bold">
+            {{ itemCount() }}
+          </span>
+        </a>
+        
+        <!-- Mobile Menu Button -->
+        <button (click)="toggleMenu()" 
+                class="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors">
+          <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
       </div>
     </div>
     
-  </nav>
-  
-  <div class="container mx-auto px-4 py-8 pt-16"> <!-- Add pt-16 for spacing -->
-    <!-- Your main content goes here -->
+    <!-- Mobile Menu -->
+    <div *ngIf="isMenuOpen" class="md:hidden pb-4">
+      <div class="flex flex-col space-y-2 pt-2">
+        <a routerLink="/products" 
+           class="px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors
+                  font-medium flex items-center gap-2">
+          <i class="fas fa-box-open w-5 text-center"></i>
+          Products
+        </a>
+        <a routerLink="/about" 
+           class="px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors
+                  font-medium flex items-center gap-2">
+          <i class="fas fa-info-circle w-5 text-center"></i>
+          About
+        </a>
+        <a routerLink="/contact" 
+           class="px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors
+                  font-medium flex items-center gap-2">
+          <i class="fas fa-envelope w-5 text-center"></i>
+          Contact
+        </a>
+      </div>
+    </div>
   </div>
-  
+</nav>
+
+<div class="container mx-auto px-4 py-8 pt-20"> <!-- Increased pt to 20 -->
+  <!-- Your main content goes here -->
+</div>
