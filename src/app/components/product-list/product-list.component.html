@@ -1,0 +1,89 @@
+<div class="container mx-auto px-4 py-8 pt-16">
+
+    
+    <div *ngIf="error()">
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <strong class="font-bold"><i class="fas fa-exclamation-triangle"></i> Error!</strong>
+        <span class="block sm:inline">{{ error() }}</span>
+      </div>
+    </div>
+  
+    <!-- Heading and Filters Section -->
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold flex items-center">
+        <i class="fas fa-cogs mr-2 text-blue-600"></i> <!-- Icon for products heading -->
+        All Products
+      </h1>
+      <div class="flex gap-6">
+        <!-- Category Filter -->
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-list-ul text-blue-600"></i> <!-- Category Icon -->
+          <select
+            [ngModel]="selectedCategory()"
+            (ngModelChange)="selectedCategory.set($event); filterProducts()"
+            class="border rounded-lg px-4 py-2"
+          >
+            <option value="">All Categories</option>
+            <option *ngFor="let category of categories()" [value]="category.name">{{ category.displayName }}</option>
+          </select>
+        </div>
+  
+        <!-- Sort Filter -->
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-sort-amount-down-alt text-blue-600"></i> <!-- Sort Icon -->
+          <select
+            [ngModel]="sortBy()"
+            (ngModelChange)="sortBy.set($event); sortProducts()"
+            class="border rounded-lg px-4 py-2"
+          >
+            <option value="name">Name</option>
+            <option value="priceLow">Price: Low to High</option>
+            <option value="priceHigh">Price: High to Low</option>
+            <option value="rating">Rating</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Loading Spinner -->
+    <div *ngIf="loading()">
+      <div class="flex justify-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600 border-solid"></div>
+      </div>
+    </div>
+  
+    <!-- Content if not loading -->
+    <div *ngIf="!loading()">
+      
+      <!-- No Products Found -->
+      <div *ngIf="displayedProducts().length === 0">
+        <div class="text-center py-12">
+          <i class="fas fa-box-open text-3xl text-gray-600 mb-4"></i> <!-- Icon for No Products Found -->
+          <p class="text-xl text-gray-600">No products found</p>
+        </div>
+      </div>
+      
+      <!-- Product Grid -->
+      <div *ngIf="displayedProducts().length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div *ngFor="let product of displayedProducts()" class="col-span-1">
+          <app-product-card [product]="product"></app-product-card>
+        </div>
+      </div>
+  
+      <!-- Pagination -->
+      <div *ngIf="pages().length > 1" class="flex justify-center mt-8 gap-4">
+        <button
+          *ngFor="let page of pages()"
+          (click)="currentPage.set(page)"
+          [class.bg-blue-600]="currentPage() === page"
+          [class.text-white]="currentPage() === page"
+          class="px-6 py-3 rounded-full border hover:bg-blue-100 transition-all flex items-center space-x-2"
+        >
+          <i class="fas fa-chevron-left" *ngIf="currentPage() !== page"></i> <!-- Left arrow icon -->
+          <span>{{ page }}</span>
+          <i class="fas fa-chevron-right" *ngIf="currentPage() !== page"></i> <!-- Right arrow icon -->
+        </button>
+      </div>
+    </div>
+  </div>
+  

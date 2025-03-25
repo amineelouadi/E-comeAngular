@@ -1,0 +1,91 @@
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Shopping Cart</h1>
+  
+    <ng-container *ngIf="items().length === 0; else cartItems">
+      <div class="text-center py-12">
+        <p class="text-xl text-gray-600 mb-4">Your cart is empty</p>
+        <a
+          routerLink="/products"
+          class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+        >
+          Continue Shopping
+        </a>
+      </div>
+    </ng-container>
+  
+    <ng-template #cartItems>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <div *ngFor="let item of items(); trackBy: trackById">
+            <div class="flex items-center gap-4 p-4 bg-white rounded-lg shadow mb-4">
+              <img
+                [src]="item.product.imageUrl"
+                [alt]="item.product.name"
+                class="w-24 h-24 object-cover rounded"
+              >
+              <div class="flex-grow">
+                <h3 class="text-lg font-semibold">{{ item.product.name }}</h3>
+                <div class="text-gray-600">
+                  <ng-container *ngIf="item.product.discountPrice; else normalPrice">
+                    <span class="text-red-600">${{ item.product.discountPrice }}</span>
+                    <span class="text-sm line-through ml-2">${{ item.product.price }}</span>
+                  </ng-container>
+                  <ng-template #normalPrice>
+                    <span>${{ item.product.price }}</span>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  (click)="updateQuantity(item.product.id, item.quantity - 1)"
+                  class="px-2 py-1 border rounded"
+                >-</button>
+                <input
+                  type="number"
+                  [value]="item.quantity"
+                  (change)="onQuantityChange($event, item.product.id)"
+                  class="w-16 text-center border rounded"
+                  min="1"
+                >
+                <button
+                  (click)="updateQuantity(item.product.id, item.quantity + 1)"
+                  class="px-2 py-1 border rounded"
+                >+</button>
+              </div>
+              <button
+                (click)="removeFromCart(item.product.id)"
+                class="text-red-600 hover:text-red-800"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+  
+        <div class="bg-white p-6 rounded-lg shadow h-fit">
+          <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
+          <div class="space-y-2 mb-4">
+            <div class="flex justify-between">
+              <span>Subtotal</span>
+              <span>${{ subtotal().toFixed(2) }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Tax</span>
+              <span>${{ tax().toFixed(2) }}</span>
+            </div>
+            <div class="flex justify-between font-bold text-lg pt-2 border-t">
+              <span>Total</span>
+              <span>${{ total().toFixed(2) }}</span>
+            </div>
+          </div>
+          <a
+            routerLink="/checkout"
+            class="block w-full bg-blue-600 text-white text-center px-6 py-3 rounded-lg hover:bg-blue-700"
+          >
+            Proceed to Checkout
+          </a>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  

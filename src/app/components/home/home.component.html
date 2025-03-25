@@ -1,0 +1,39 @@
+<div class="container mx-auto px-4">
+  <!-- Hero Section -->
+  <section class="text-center py-16 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg mb-12">
+    <h1 class="text-5xl font-bold mb-6 text-gray-800">Welcome to ShopSmart</h1>
+    <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+      Discover amazing products at great prices, with free shipping on orders over $50
+    </p>
+    <a 
+      routerLink="/products" 
+      class="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 inline-flex items-center gap-2"
+    >
+      Shop Now
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+      </svg>
+    </a>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="py-12 bg-gray-50 rounded-lg mt-12">
+    <div class="max-w-2xl mx-auto text-center">
+      <h3 class="text-2xl font-bold mb-4">Stay Updated</h3>
+      <p class="text-gray-600 mb-6">Subscribe to our newsletter for exclusive deals and updates</p>
+      <form class="flex gap-4 justify-center">
+        <input 
+          type="email" 
+          placeholder="Enter your email" 
+          class="px-4 py-2 rounded-lg border flex-1 max-w-sm"
+        >
+        <button 
+          type="submit" 
+          class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+        >
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+</div> 
