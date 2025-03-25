@@ -10,13 +10,13 @@
           </svg>
         </div>
         <p class="text-xl text-gray-600 mb-6">Your wishlist is looking empty...</p>
-        <a
-          routerLink="/products"
-          class="inline-block bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-lg 
-                 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg"
-        >
-          Explore Products →
-        </a>
+        <button
+        (click)="redirectToProducts()"
+        class="inline-block bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-lg 
+               hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg"
+      >
+        Explore Products →
+      </button>
       </div>
     </div>
   </ng-container>
